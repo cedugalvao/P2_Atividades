@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Login {
 
-	public void menu(Usuario usuario) {
+	public void menu(Conta conta) {
 	    Scanner scan = new Scanner(System.in);
 
 		int controlador = -1;
@@ -17,10 +17,10 @@ public class Login {
 			
 			switch(controlador) {
 			case 1:
-				login(usuario);
+				login(conta);
 				break;
 			case 2:
-				cadastro(usuario);
+				cadastro(conta);
 				break;
 			case 3:
 				System.out.println("Encerrando!");
@@ -32,7 +32,7 @@ public class Login {
 		}
 	}
 
-	private void cadastro(Usuario usuario) {
+	public void cadastro(Conta conta) {
 		Scanner scan = new Scanner(System.in);
 		String nome, email, cargo;
 		int senha, idProj, idAtiv;
@@ -52,7 +52,7 @@ public class Login {
 				+ "\nAM - Aluno de Mestrado"
 				+ "\nAD - Aluno de Doutorado"
 				+ "\nPR - Professor"
-				+ "\nPE - Pesquisador"
+				+ "\nPES - Pesquisador"
 				+ "\nPD - Profissional - Desenvolvedor"
 				+ "\nPT - Profissional - Testador"
 				+ "\nPA - Profissional - Analista"
@@ -75,19 +75,20 @@ public class Login {
 			case 1:
 				System.out.println("\nInsira o Id do Projeto:");
 				idProj = scan.nextInt();
-				Projetos projeto = acharProjeto(idProj, usuario);
+				Projetos projeto = acharProjeto(idProj, conta);
 			}
 		}		
 			
 	}
 	
 
-	private Projetos acharProjeto(int idProj, Usuario usuario) {
+	public Projetos acharProjeto(int idProj, Conta conta) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private void login(Usuario usuario) {
+
+	public void login(Conta conta) {
 		Scanner scan = new Scanner(System.in);
 		
 		String email;
@@ -104,7 +105,7 @@ public class Login {
 		System.out.println("Enter para confirmar");
 		scan.nextLine();
 		
-		for(Usuario usuario02 : Conta.getUsuario()) {
+		for(Usuario usuario02 : conta.getUsuario()) {
 			if(usuario02.getEmail().equals(atual) && usuario02.getSenha() == senha) {
 				atual = usuario02;
 				break;
@@ -115,19 +116,19 @@ public class Login {
 			}			
 		}
 		if(atual != null) {
-			menu(usuario, atual);
+			menu(conta, atual);
 		}
 		else {
 			System.out.println("\n Usuario não cadastrado");
 		}
 	}
 
-	private void menu(Usuario usuario, Usuario atual) {
+	public void menu(Conta conta, Usuario atual) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void menu(Usuario usuario, Conta conta) {
+	public void menu(Usuario usuario, Conta conta) {
 		Scanner scan = new Scanner(System.in);
 		int controle = -1;
 		
@@ -204,11 +205,11 @@ public class Login {
 		}
 	}
 
-	private void adcAtividade(Conta conta) {
+	public void adcAtividade(Conta conta) {
 		Scanner scan = new Scanner(System.in);
 		
 		int id;
-		String nome, descricao, tempoInicio, tempoFim, membros, emailCoordenador, tarefas;
+		String nome, descricao, tempoInicio, tempoFim, membros = null, emailCoordenador, tarefas;
 		ArrayList<Usuario> participantes = new ArrayList<Usuario>();
 		ArrayList<Atividades> atividades = new ArrayList<Atividades>();
 				
@@ -240,7 +241,7 @@ public class Login {
 				case 1:
 					System.out.println("\nInsira o email do Menbro:");
 					membros = scan.nextLine();
-					Usuario usuario = procurarUsuario(membros, conta);
+					Usuario usuario = procurarUsuarios(membros, conta);
 					if (usuario != null) {
 						participantes.add(usuario);
 						System.out.println("\nO Usuraio "+ usuario.getNome() +" foi designado para a atividade.");
@@ -257,86 +258,188 @@ public class Login {
 		System.out.println("\nAdicione as tarefas a serem realizadas:");
 		tarefas = scan.nextLine();
 		Atividades atividade = new Atividades(id, nome,descricao,tempoInicio,tempoFim,membros,emailCoordenador, tarefas);
-		atividade = conta.getAtividade();
-		atividade.add(atividades);
+		atividades = conta.getAtividade();
+		atividades.add(atividade);
 		conta.setAtividade(atividades);
 		
 		System.out.println("\nA Atividade" + nome+" foi adicionada. ");		
 	}
 
-	private Usuario procurarUsuario(String membros, Conta conta) {
-		// TODO Auto-generated method stub
-		return null;
+	private Usuario procurarUsuarios(String membros, Conta conta) {
+		for(Usuario usuario : conta.getUsuario())
+			if(usuario.getEmail().equals(membros)) {
+				return usuario;
+			}
+		return  null;
 	}
 
-	private void altProjeto(Conta conta) {
-		// TODO Auto-generated method stub
-		
+	public Usuario procurarUsuario(Usuario usuario2, Conta conta) {
+		for(Usuario usuario : conta.getUsuario())
+			if(usuario.getEmail().equals(usuario2)) {
+				return usuario;
+			}
+		return  null;
 	}
 
-	private void altAtividade(Conta conta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void altUsusario(Conta conta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void removerProjeto(Conta conta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void removerAtividade(Conta conta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void removerUsuario(Conta conta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void verUsuario(Conta conta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void verProjeto(Conta conta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void verAtividade(Conta conta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void alterarEstadoProjeto(Conta conta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void verEstadoProjeto(Conta conta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void adcBolsa(Conta conta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void relatorio(Conta conta) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void adcProjeto(Conta atual) {
+	public void altProjeto(Conta conta) {
 		Scanner scan = new Scanner(System.in);
 		
 		
+	}
+
+	public void altAtividade(Conta conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void altUsusario(Conta conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removerProjeto(Conta conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removerAtividade(Conta conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removerUsuario(Conta conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void verUsuario(Conta conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void verProjeto(Conta conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void verAtividade(Conta conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void alterarEstadoProjeto(Conta conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void verEstadoProjeto(Conta conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void adcBolsa(Conta conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void relatorio(Conta conta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void adcProjeto(Conta conta) {
+		Scanner scan = new Scanner(System.in);
+		
+		int id, idAtividade;
+		String descricao, comecoProjeto, fimProjeto, emailCoordenador, membro;
+		Usuario coordenador = null;
+		double valorBolsa;
+		ArrayList<Usuario> membros = new ArrayList<Usuario>();
+		ArrayList<Projetos> projeto = new ArrayList<Projetos>();
+		ArrayList<Atividades> atividade = new ArrayList<Atividades>();
+		
+		System.out.println("\nInsira o Id(numerico) para o projeto:");
+		id = scan.nextInt();
+		System.out.println("\nInsira a descrição do Projeto:");
+		descricao = scan.nextLine();
+		System.out.println("\nInsira a data de Inicio do Projeto:");
+		comecoProjeto = scan.nextLine();
+		System.out.println("\nInsira a data de Encerramento do Projeto:");
+		fimProjeto = scan.nextLine();
+		System.out.println("\nInsira o email do coordenador do Projeto:");
+		emailCoordenador = scan.nextLine();
+		
+		for (Usuario usuario : conta.getUsuario()) {
+			if(usuario.getEmail().equals(emailCoordenador)) {
+				coordenador = usuario;
+				if(usuario.getCargo() == "PR" | usuario.getCargo() == "PES") {
+					coordenador = usuario;
+				}else {
+					System.out.println("\nO Usuario:" + usuario + " não pode ser Coordenador.");
+				}
+			}
+		}
+		if(coordenador == null) {
+			System.out.println("\nEsse Usuario não esta cadastrado.");
+			return;
+		}
+		System.out.println("\nDeseja adicionar membros?"
+				+ "\n1 - Sim"
+				+ "\n2 - Não");
+		int controle =-1;
+		controle = scan.nextInt();
+		scan.nextLine();
+		while(controle != 2) {
+			System.out.println("\nDigite:"
+					+ "\n1 - Adicionar um membro"
+					+ "\n2 - Encerrar");
+			controle = scan.nextInt();
+			switch(controle) {
+			case 1:
+				System.out.println("\nEmail do Usuario:");
+				membro = scan.nextLine();
+				Usuario usuario = procurarUsuario(membro, conta);
+				if(usuario != null) {
+					membros.add(usuario);
+					System.out.println("\nUsuario " + usuario.getNome() +" foi adicionado");
+				}else {
+					System.out.println("\nO email" + membro +" não pertence a nenhum Usuario cadastrado");
+					break;
+				}
+			}
+		}
+		System.out.println("\nDeseja cadastrar uma Atividade?"
+				+ "\n1 - Sim"
+				+ "\n2 - Não");
+		int controle01 = -1;
+		controle01 = scan.nextInt();
+		scan.nextLine();
+		if(controle !=2) {
+			while(controle != 2) {
+				System.out.println("\n1 - Adicionar Atividade"
+						+ "\n2 - Sair");
+				switch(controle01) {
+				case 1:
+					System.out.println("\nInsira o ID(numerico) da Atividade;");
+					idAtividade = scan.nextInt();
+					Atividades atividade01 = procurarAtividade(idAtividade, conta);
+					if(atividade01 != null) {
+						atividade.add(atividade01);
+						
+					}
+				}
+			}
+		}else {
+			return;
+		}
+		System.out.println("\nInsira o Id(numerico) das atividades:");
+		
+		
+		
+	}
+
+	private Atividades procurarAtividade(int idAtividade, Conta atual) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
