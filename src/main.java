@@ -1,10 +1,9 @@
 
 
-import classe.Login;
-
 public class main {
-    
-    public static void main(String[] agrs){
-        new Login();
-    }
+	
+	public static void main (String[] args) {
+		Login login = new Login();
+		
+	}
 }
